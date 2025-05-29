@@ -105,7 +105,8 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
   Future<void> _onAddVisit(
     AddedVisitEventSink event,
     Emitter<AppState> emit,
-  ) async {
+  )
+  async {
     if (event.customer == null) {
       emit(ErrorState('Customer is required'));
       return;
@@ -135,7 +136,7 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
       emit(ErrorState('Notes is required'));
       return;
     }
-    emit(LoadingState());
+   emit(LoadingState());
     final visit = Visit(
       customer: event.customer,
       visitDate: event.visitDate,
@@ -149,9 +150,9 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
     result.fold(
       (failure) {
         emit(ErrorState(failure.message));
-        return;
       },
       (visit) {
+        print("success");
         emit(OnAddVisitSuccessState(visit: visit));
       },
     );
