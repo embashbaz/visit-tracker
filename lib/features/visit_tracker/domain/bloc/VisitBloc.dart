@@ -12,6 +12,9 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
   List<Visit>? _cachedVisits;
 
   VisitsBloc(this.repository) : super(EmptyState()) {
+    on<EmptyEvent>((event, emit) async {
+      emit(EmptyState());
+    });
     on<GetVisitsEventSink>(_onGetVisits);
     on<GetSingleVisitEventSink>(_onGetSingleVisit);
     on<AddedVisitEventSink>(_onAddVisit);
@@ -22,6 +25,7 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
     GetVisitsEventSink event,
     Emitter<AppState> emit,
   ) async {
+    emit(LoadingState());
     if (_cachedVisits == null) {
       await _onGetRemoteVisits();
     }
@@ -29,7 +33,24 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
     final term = event.term;
     final filteredVisits = _filterVisits(term, _cachedVisits ?? []);
 
-    emit(GetVisitsSuccessState(visits: filteredVisits, term: term));
+    int? allVisitsCount = _cachedVisits?.length;
+    int? pendingVisitsCount =
+        _cachedVisits?.where((v) => v.status == "Pending").length;
+    int? completedVisitsCount =
+        _cachedVisits?.where((v) => v.status == "Completed").length;
+    int? cancelledVisitsCount =
+        _cachedVisits?.where((v) => v.status == "Cancelled").length;
+
+    emit(
+      GetVisitsSuccessState(
+        visits: filteredVisits,
+        term: term,
+        allVisitsCount: allVisitsCount,
+        pendingVisitsCount: pendingVisitsCount,
+        completedVisitsCount: completedVisitsCount,
+        cancelledVisitsCount: cancelledVisitsCount,
+      ),
+    );
   }
 
   Future<void> _onGetSingleVisit(
@@ -37,6 +58,7 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
     Emitter<AppState> emit,
   ) async {
     if (_cachedVisits == null) {
+      emit(LoadingState());
       await _onGetRemoteVisits();
     }
     final visit = _cachedVisits?.firstWhere((v) => v.id == event.visitId);
@@ -104,6 +126,16 @@ class VisitsBloc extends Bloc<AppEvent, AppState> {
       return;
     }
 
+    if (event.location == null || event.location?.isEmpty == true) {
+      emit(ErrorState('Location is required'));
+      return;
+    }
+
+    if (event.notes == null || event.notes?.isEmpty == true) {
+      emit(ErrorState('Notes is required'));
+      return;
+    }
+    emit(LoadingState());
     final visit = Visit(
       customer: event.customer,
       visitDate: event.visitDate,
