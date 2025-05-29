@@ -1,16 +1,36 @@
 # visit_tracker
 
-Solution for Mobile Software Engineer Consultant Role at Solutech Limited
 
-## Getting Started
+Submission for solutech
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Implementation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+I split the app in deifferent folders following something similar to the MVVM approach on Android. We have have the api -> Repo -> bloc <- presentation.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screen shot are
+
+![screenshot](screenshot/Screenshot_20250530_005037.png)
+![screenshot](screenshot/detail.png)
+![screenshot](screenshot/new.png)
+
+## Running the code
+
+add a file .env at the root of the project
+Add the following to the file
+```
+API_BASE_URL=url
+API_KEY=api_key
+
+```
+
+With the api_key key and base url. 
+
+
+## Notes on offline support, testing, or CI if implemented
+
+I didn't have enough time to do most of the optional requirement. I did write some unit tests for adding a visit.
+
+## Any assumptions, trade-offs, or limitations
+
+The endpoints for updating and deleting were not working. That will not work on this app aswell.
