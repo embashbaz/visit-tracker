@@ -1,16 +1,16 @@
-class ActivityApiResponse {
+class Activity {
   final int? id;
   final String? description;
   final DateTime? createdAt;
 
-  ActivityApiResponse({
+  Activity({
     this.id,
     this.description,
     this.createdAt,
   });
 
-  factory ActivityApiResponse.fromJson(Map<String, dynamic> json) {
-    return ActivityApiResponse(
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    return Activity(
       id: json['id'] as int?,
       description: json['description'] as String?,
       createdAt: json['created_at'] != null

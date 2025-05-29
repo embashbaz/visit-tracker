@@ -1,16 +1,16 @@
-class CustomerApiResponse {
+class Customer {
   final int? id;
   final String? name;
   final DateTime? createdAt;
 
-  CustomerApiResponse({
+  Customer({
     this.id,
     this.name,
     this.createdAt,
   });
 
-  factory CustomerApiResponse.fromJson(Map<String, dynamic> json) {
-    return CustomerApiResponse(
+  factory Customer.fromJson(Map<String, dynamic> json) {
+    return Customer(
       id: json['id'] as int?, // will be null if missing
       name: json['name'] as String?,
       createdAt: json['created_at'] != null

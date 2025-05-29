@@ -4,12 +4,12 @@ import 'package:visit_tracker/data/remote/models/VisitApiResponse.dart';
 
 class Visit {
   final int? id;
-  final CustomerApiResponse? customer;
+  final Customer? customer;
   final DateTime? visitDate;
   final String? status;
   final String? location;
   final String? notes;
-  final List<ActivityApiResponse>? activitiesDone;
+  final List<Activity>? activitiesDone;
   final DateTime? createdAt;
 
   Visit({
@@ -26,11 +26,11 @@ class Visit {
   factory Visit.fromVisitApiResponse(VisitApiResponse visit) {
     return Visit(
       id: visit.id,
-      customer: CustomerApiResponse(id: visit.customerId),
+      customer: Customer(id: visit.customerId),
       visitDate: visit.visitDate,
       status: visit.status,
       location: visit.location,
-      activitiesDone: visit.activitiesDone?.map((a) => ActivityApiResponse(id: int.tryParse(a))).toList()
+      activitiesDone: visit.activitiesDone?.map((a) => Activity(id: int.tryParse(a))).toList()
     );
   }
 

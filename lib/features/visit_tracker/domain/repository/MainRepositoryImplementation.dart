@@ -3,6 +3,7 @@
 import 'package:dartz/dartz.dart';
 
 import 'package:visit_tracker/data/remote/models/ApiFailure.dart';
+import 'package:visit_tracker/data/remote/models/CustomerApiResponse.dart';
 import 'package:visit_tracker/data/remote/models/VisitApiResponse.dart';
 
 import 'package:visit_tracker/features/visit_tracker/domain/model/Visit.dart';
@@ -62,7 +63,7 @@ class MainRepositoryImplementation extends MainRepository {
       final enrichedVisits = visits.map((v) {
         final customer = customerMap[v.customerId];
         final activityList = v.activitiesDone?.map((id) => activityMap[id])
-            .whereType<ActivityApiResponse>()
+            .whereType<Activity>()
             .toList();
 
         return Visit(
@@ -79,6 +80,16 @@ class MainRepositoryImplementation extends MainRepository {
 
       return right(enrichedVisits);
     }
+
+  @override
+  Future<Either<ApiFailure, List<Activity>>> getAllActivities() {
+    return _dioApiService.getAllActivities();
+  }
+
+  @override
+  Future<Either<ApiFailure, List<Customer>>> getAllCustomers() {
+    return _dioApiService.getAllCustomers();
+  }
 
 
 }

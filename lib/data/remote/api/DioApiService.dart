@@ -69,12 +69,12 @@ class DioApiService {
     }
   }
 
-  Future<Either<ApiFailure, List<ActivityApiResponse>>> getAllActivities() async {
+  Future<Either<ApiFailure, List<Activity>>> getAllActivities() async {
     try {
       final response = await _dio.get('/activities');
 
       final data = response.data as List;
-      final activities = data.map((e) => ActivityApiResponse.fromJson(e)).toList();
+      final activities = data.map((e) => Activity.fromJson(e)).toList();
 
       return right(activities);
     } on DioException catch (e) {
@@ -93,12 +93,12 @@ class DioApiService {
     }
   }
 
-  Future<Either<ApiFailure, List<CustomerApiResponse>>> getAllCustomers() async {
+  Future<Either<ApiFailure, List<Customer>>> getAllCustomers() async {
     try {
       final response = await _dio.get('/customers');
 
       final data = response.data as List;
-      final customers = data.map((e) => CustomerApiResponse.fromJson(e)).toList();
+      final customers = data.map((e) => Customer.fromJson(e)).toList();
 
       return right(customers);
     } on DioException catch (e) {
